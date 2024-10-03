@@ -1,49 +1,51 @@
-#ifndef ARRAY_H
-#define ARRAY_H
-
+#pragma once
+#include <iostream>
 #include <stdexcept>
 
 template <typename T>
 class Array {
 protected:
-    T* data;
-    int size;
-    int capacity;
+    T* m_array;
+    int m_size;
+    int m_capacity;
 
-    // Function to expand the array size exponentially (2, 4, 8, 16, etc.)
+    // Expands the array by powers of two: 2, 4, 8, etc.
     void Expand() {
-        capacity = (capacity == 0) ? 2 : capacity * 2;  // Exponential growth
-        T* newData = new T[capacity];
-
-        for (int i = 0; i < size; ++i) {
-            newData[i] = data[i];  // Copy old data
+        m_capacity = (m_capacity == 0) ? 2 : m_capacity * 2;
+        T* newArray = new T[m_capacity];
+        for (int i = 0; i < m_size; i++) {
+            newArray[i] = m_array[i];
         }
-
-        delete[] data;  // Free old memory
-        data = newData; // Assign new expanded data
+        delete[] m_array;
+        m_array = newArray;
     }
 
 public:
-    Array(int initialCapacity = 2) : size(0), capacity(initialCapacity) {
-        data = new T[capacity];
+    Array(int capacity = 2) : m_size(0), m_capacity(capacity) {
+        m_array = new T[m_capacity];
     }
 
     virtual ~Array() {
-        delete[] data;
+        delete[] m_array;
     }
 
-    virtual void Push(const T& element) = 0;
+    virtual void Push(const T& value) = 0; // Pure virtual function for derived classes
 
-    int GetSize() const {
-        return size;
+    int Size() const {
+        return m_size;
     }
 
-    T& operator[](int index) {
-        if (index < 0 || index >= size) {
-            throw std::out_of_range("Index out of range");
+    T operator[](int index) const {
+        if (index < 0 || index >= m_size) {
+            throw std::out_of_range("Index out of bounds");
         }
-        return data[index];
+        return m_array[index];
+    }
+
+    void Print() const {
+        for (int i = 0; i < m_size; i++) {
+            std::cout << m_array[i] << " ";
+        }
+        std::cout << std::endl;
     }
 };
-
-#endif

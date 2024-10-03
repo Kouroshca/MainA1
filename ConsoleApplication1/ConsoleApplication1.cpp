@@ -1,45 +1,30 @@
 #include <iostream>
-#include "UnorderedArray.h"
 #include "OrderedArray.h"
+#include "UnorderedArray.h"
 
 int main() {
-    // Unordered array test
+    std::cout << "Unordered Array Example:" << std::endl;
     UnorderedArray<int> unorderedArray;
+    unorderedArray.Push(10);
     unorderedArray.Push(5);
-    unorderedArray.Push(2);
-    unorderedArray.Push(8);
+    unorderedArray.Push(20);
+    unorderedArray.Print();  // Should print: 10 5 20
 
-    std::cout << "Unordered array: ";
-    for (int i = 0; i < unorderedArray.GetSize(); ++i) {
-        std::cout << unorderedArray[i] << " ";
-    }
-    std::cout << std::endl;
+    std::cout << "\nOrdered Array Example (Allow Duplicates):" << std::endl;
+    OrderedArray<int> orderedArray(false);  // Allow duplicates
+    orderedArray.Push(10);
+    orderedArray.Push(5);
+    orderedArray.Push(20);
+    orderedArray.Push(10);  // Duplicate allowed
+    orderedArray.Print();  // Should print: 5 10 10 20
 
-    // Ordered array test without duplicates
-    OrderedArray<int> orderedArray(2, false);  // Prevent duplicates
-    orderedArray.Push(3);
-    orderedArray.Push(1);
-    orderedArray.Push(3);  // Duplicate, should not be added
-    orderedArray.Push(2);
-
-    std::cout << "Ordered array (no duplicates): ";
-    for (int i = 0; i < orderedArray.GetSize(); ++i) {
-        std::cout << orderedArray[i] << " ";
-    }
-    std::cout << std::endl;
-
-    // Ordered array test with duplicates
-    OrderedArray<int> orderedArrayWithDupes(2, true);  // Allow duplicates
-    orderedArrayWithDupes.Push(3);
-    orderedArrayWithDupes.Push(1);
-    orderedArrayWithDupes.Push(3);  // Duplicate, will be added
-    orderedArrayWithDupes.Push(2);
-
-    std::cout << "Ordered array (with duplicates): ";
-    for (int i = 0; i < orderedArrayWithDupes.GetSize(); ++i) {
-        std::cout << orderedArrayWithDupes[i] << " ";
-    }
-    std::cout << std::endl;
+    std::cout << "\nOrdered Array Example (Prevent Duplicates):" << std::endl;
+    OrderedArray<int> orderedArrayNoDupes(true);  // Prevent duplicates
+    orderedArrayNoDupes.Push(10);
+    orderedArrayNoDupes.Push(5);
+    orderedArrayNoDupes.Push(20);
+    orderedArrayNoDupes.Push(10);  // Duplicate prevented
+    orderedArrayNoDupes.Print();  // Should print: 5 10 20
 
     return 0;
 }

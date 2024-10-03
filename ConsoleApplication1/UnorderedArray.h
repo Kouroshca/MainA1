@@ -1,20 +1,16 @@
-// UnorderedArray.h
-#ifndef UNORDEREDARRAY_H
-#define UNORDEREDARRAY_H
-
+#pragma once
 #include "Array.h"
 
 template <typename T>
 class UnorderedArray : public Array<T> {
 public:
-    UnorderedArray(int initialCapacity = 2) : Array<T>(initialCapacity) {}
+    UnorderedArray(int capacity = 2) : Array<T>(capacity) {}
 
-    void Push(const T& element) override {
-        if (this->size >= this->capacity) {
+    // Inserts in an unordered manner
+    void Push(const T& value) override {
+        if (this->m_size >= this->m_capacity) {
             this->Expand();
         }
-        this->data[this->size++] = element;
+        this->m_array[this->m_size++] = value;
     }
 };
-
-#endif

@@ -1,17 +1,14 @@
-#ifndef ORDEREDARRAY_H
-#define ORDEREDARRAY_H
-
+#pragma once
 #include "Array.h"
 
 template <typename T>
 class OrderedArray : public Array<T> {
 private:
-    bool allowDuplicates;
+    bool m_preventDuplicates;
 
-    // Helper function to check if element already exists (for duplicates)
-    bool Contains(const T& element) {
-        for (int i = 0; i < this->size; ++i) {
-            if (this->data[i] == element) {
+    bool Contains(const T& value) const {
+        for (int i = 0; i < this->m_size; i++) {
+            if (this->m_array[i] == value) {
                 return true;
             }
         }
@@ -19,29 +16,25 @@ private:
     }
 
 public:
-    // Constructor allows setting whether duplicates are allowed
-    OrderedArray(int initialCapacity = 2, bool allowDuplicatesFlag = true)
-        : Array<T>(initialCapacity), allowDuplicates(allowDuplicatesFlag) {}
+    OrderedArray(bool preventDuplicates = false, int capacity = 2)
+        : Array<T>(capacity), m_preventDuplicates(preventDuplicates) {}
 
-    void Push(const T& element) override {
-        // If duplicates are not allowed, check if the element already exists
-        if (!allowDuplicates && Contains(element)) {
-            return;  // Do not insert duplicate
-        }
-
-        if (this->size >= this->capacity) {
+    // Inserts in an ordered manner, preventing duplicates if the flag is set
+    void Push(const T& value) override {
+        if (this->m_size >= this->m_capacity) {
             this->Expand();
         }
 
-        // Insert element in sorted order
-        int i;
-        for (i = this->size - 1; i >= 0 && this->data[i] > element; --i) {
-            this->data[i + 1] = this->data[i];  // Shift elements to the right
+        if (m_preventDuplicates && Contains(value)) {
+            std::cout << "Duplicate value prevented: " << value << std::endl;
+            return;
         }
 
-        this->data[i + 1] = element;  // Insert the new element in sorted position
-        ++this->size;
+        int i;
+        for (i = this->m_size - 1; (i >= 0 && this->m_array[i] > value); i--) {
+            this->m_array[i + 1] = this->m_array[i];
+        }
+        this->m_array[i + 1] = value;
+        this->m_size++;
     }
 };
-
-#endif
