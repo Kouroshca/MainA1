@@ -19,7 +19,6 @@ public:
     OrderedArray(bool preventDuplicates = false, int capacity = 2)
         : Array<T>(capacity), m_preventDuplicates(preventDuplicates) {}
 
-    // Inserts in an ordered manner, preventing duplicates if the flag is set
     void Push(const T& value) override {
         if (this->m_size >= this->m_capacity) {
             this->Expand();

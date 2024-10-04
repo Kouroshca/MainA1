@@ -9,7 +9,7 @@ protected:
     int m_size;
     int m_capacity;
 
-    // Expands the array by powers of two: 2, 4, 8, etc.
+    
     void Expand() {
         m_capacity = (m_capacity == 0) ? 2 : m_capacity * 2;
         T* newArray = new T[m_capacity];
@@ -29,7 +29,7 @@ public:
         delete[] m_array;
     }
 
-    virtual void Push(const T& value) = 0; // Pure virtual function for derived classes
+    virtual void Push(const T& value) = 0;
 
     int Size() const {
         return m_size;
